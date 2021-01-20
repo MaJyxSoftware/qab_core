@@ -1,0 +1,32 @@
+# Python
+*.pyc
+*.log
+__pycache__/
+
+# Dev
+logs/
+config.json
+*.db
+
+# Build
+build/
+dist/
+*.egg-info/
+
+# Tests
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+junit/
+.sonar/
+.scannerwork/
+
+# IDE
+.vscode/
+
+# Ignore SSL
+certs/
+*.pem
+*.key

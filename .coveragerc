@@ -1,0 +1,14 @@
+[paths]
+source =
+    qab_core
+    */site-packages/qab_core
+
+[run]
+branch = true
+parallel = true
+source =
+    qab_core
+
+[report]
+show_missing = true
+precision = 2
