@@ -38,7 +38,7 @@ class TestController(Controller):
         return f"Hello {firstname} {lastname}"
 ```
 
-Then create the startup file, and run it as you which:
+Then create the startup file, and run it as you wish:
 
 ```python
 from qab_core.server import Server
