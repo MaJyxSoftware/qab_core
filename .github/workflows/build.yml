@@ -30,6 +30,7 @@ jobs:
     - name: Test with PyTest
       run: |
         pytest --cov=qab_core --cov-report=xml --cov-report=html
+        sed -i 's+/home/runner/work/jobreporter/jobreporter+/github/workspace+g' coverage.xml
     - name: SonarQube Scan
       uses: kitabisa/sonarqube-action@master
       with:
