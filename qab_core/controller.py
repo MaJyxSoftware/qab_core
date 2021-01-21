@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-import gzip
 import json
 
 from bottle import request, response
@@ -43,13 +41,6 @@ class Controller(object):
             res["data"] = data
 
         res = json.dumps(res)
-
-        if 'gzip' in request.get_header('accept-encoding', ""):
-            response.set_header("Content-Encoding", "gzip")
-            res = gzip.compress(res.encode('utf-8'), compresslevel=5)
-            self.app.console.debug("GZip response (req header: {})".format(request.get_header('accept-encoding', "")))
-
-        response.add_header("X-Response-Size", len(res))
 
         self.app.console.debug("Data sent: {} (size: {})".format(data, len(res)))
 

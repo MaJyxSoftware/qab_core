@@ -1,23 +1,20 @@
-#!/usr/bin/env python3
-
-import os
+import gzip
 import inspect
-import json
+import os
 import socket
-import multiprocessing
 from collections import OrderedDict
 from datetime import datetime
-from OpenSSL.crypto import dump_certificate_request
 
 from bottle import Bottle, RouteBuildError, redirect, request, response
 
 from qab_core.config import load_config
 from qab_core.console import Console
 from qab_core.exception import ServerCertificateError
-
+from qab_core.plugin import GzipPlugin
 
 def _gen_openssl():
     import random
+
     from OpenSSL import crypto
 
     pkey = crypto.PKey()
@@ -47,11 +44,11 @@ def _gen_openssl():
 
 def _gen_cryptography():
     import datetime
+
     from cryptography import x509
     from cryptography.hazmat.backends import default_backend
-    from cryptography.hazmat.primitives import hashes
+    from cryptography.hazmat.primitives import hashes, serialization
     from cryptography.hazmat.primitives.asymmetric import rsa
-    from cryptography.hazmat.primitives import serialization
     from cryptography.x509.oid import NameOID
 
     one_day = datetime.timedelta(1, 0, 0)
@@ -156,10 +153,14 @@ class Server(Bottle):
         self.__scheduler = None
 
         self.__init_hook()
+        self.__init_plugin()
 
     def __init_hook(self):
         self.add_hook('after_request', self.enable_cors)
         self.add_hook('after_request', self.logging)
+
+    def __init_plugin(self):
+        self.install(GzipPlugin())
 
     def __register(self, route, method):
         self.route(route, method=['GET', 'POST'])(method)
@@ -223,6 +224,12 @@ class Server(Bottle):
                 response.headers['Access-Control-Allow-Origin'] = cors_domain
                 response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
                 response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, Cache-Control, X-CSRF-Token, X-Auth'
+
+    def gzip(self):
+        if 'gzip' in request.get_header('accept-encoding', ""):
+            response.set_header("Content-Encoding", "gzip")
+            response.body = gzip.compress(response.body.encode('utf-8'), compresslevel=5)
+            self.console.debug("GZip response (req header: {})".format(request.get_header('accept-encoding', "")))
 
     def check_certificate(self):
         if not os.path.exists(self.config['server']['certificate']) and not os.path.exists(self.config['server']['private_key']):
