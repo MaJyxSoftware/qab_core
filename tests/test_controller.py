@@ -11,9 +11,11 @@ DummyController(app).register()
 app.console.is_debug = True
 test_app = TestApp(app)
 
-def test_gzip():
-    resp = test_app.get('/dummy', status=[200], headers={
-        'Accept-Encoding': 'gzip'
-    })
+def test_post():
+    resp = test_app.post('/dummy/post', {
+        'foo': 'bar'
+    }, status=[200])
 
-    assert resp.status_code == 200
+    assert resp.json['data']['foo'] == "bar"
+
+

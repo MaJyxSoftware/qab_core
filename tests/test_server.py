@@ -52,6 +52,13 @@ def test_optional_param():
 
     assert resp.body == b"Hello John Wick"
 
+def test_gzip():
+    resp = test_app.get('/dummy', status=[200], headers={
+        'Accept-Encoding': 'gzip'
+    })
+
+    assert resp.status_code == 200
+
 def test_cors():
     resp = test_app.get('/dummy', status=[200])
     assert resp.headers.get('Access-Control-Allow-Origin') == None
