@@ -9,7 +9,7 @@ CONFIG_DEFAULT = {
         'port': os.environ.get('LISTEN_PORT', '8443'),
         'address': os.environ.get('LISTEN_ADDRESS', '0.0.0.0'),
         'cors_enabled': os.environ.get('CORS_ENABLED', 'false').lower() == "true",
-        'cors_domains': os.environ.get('CORS_DOMAINS', "").split(','),
+        'cors_domains': os.environ.get('CORS_DOMAINS') if os.environ.get('CORS_DOMAINS') else [],
         'certificate': os.environ.get('CERTIFICATE', 'certs/fullchain.pem'),
         'private_key': os.environ.get('PRIVKEY', 'certs/privkey.pem'),
         'generate_ssl': str(os.environ.get('GENERATE_SSL', 'false')).lower() == "true",
