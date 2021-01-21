@@ -13,6 +13,7 @@ from bottle import Bottle, RouteBuildError, redirect, request, response
 
 from qab_core.config import load_config
 from qab_core.console import Console
+from qab_core.exception import ServerCertificateError
 
 
 def _gen_openssl():
@@ -208,15 +209,20 @@ class Server(Bottle):
         Domaine can be set using either configuration file `server.cors_domains` as an array or environment variable `CORS_DOMAINS` as a list of domain seperated by a `,`
         '''
         if self.config['server'].get('cors_enabled'):
+            self.console.debug("CORS enabled, adding headers")
             cors_domain = '*'
 
             cors_domains = self.config['server'].get('cors_domains')
-            if cors_domains and request.headers['host'] in cors_domains:
-                cors_domain = request.headers['origin']        
+            if cors_domains:
+                if request.headers['host'] in cors_domains:
+                    cors_domain = request.headers.get('origin', 'http://{}'.format(request.headers['host']))
+                else:
+                    cors_domain = None     
 
-            response.headers['Access-Control-Allow-Origin'] = cors_domain
-            response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
-            response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, Cache-Control, X-CSRF-Token, X-Auth'
+            if cors_domain:
+                response.headers['Access-Control-Allow-Origin'] = cors_domain
+                response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
+                response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, Cache-Control, X-CSRF-Token, X-Auth'
 
     def check_certificate(self):
         if not os.path.exists(self.config['server']['certificate']) and not os.path.exists(self.config['server']['private_key']):
@@ -325,3 +331,4 @@ class Server(Bottle):
         else:
             self.console.error("Invalid cetificates, please check error above!")
             self.console.error("Exiting!")
+            raise ServerCertificateError("Invalid cetificates, please check logs")

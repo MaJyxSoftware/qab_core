@@ -10,3 +10,9 @@ class ConfigParseFailureError(Exception):
     Should be raised when the configuration file couldn't be parsed (syntax error)
     '''
     pass
+
+class ServerCertificateError(Exception):
+    '''
+    Should be raised when a SSL Certificate error occure when starting
+    '''
+    pass
