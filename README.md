@@ -1,10 +1,10 @@
 <h1 align="center">Welcome to Quick API Builder Core 👋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.0.2-blue.svg?cacheSeconds=2592000" />
-  <a href="https://github.com/MaJyxSoftware/qab_core/blob/master/docs" target="_blank">
+  <a href="https://github.com/MaJyxSoftware/qab_core/blob/main/docs" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
   </a>
-  <a href="https://github.com/MaJyxSoftware/qab_core/blob/master/LICENSE" target="_blank">
+  <a href="https://github.com/MaJyxSoftware/qab_core/blob/main/LICENSE" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
   <a href="https://twitter.com/MaJyxWorld" target="_blank">
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     start()
 ```
 
-If you want more information, please, refer to the [documentation](https://github.com/MaJyxSoftware/qab_core/blob/master/docs)
+If you want more information, please, refer to the [documentation](https://github.com/MaJyxSoftware/qab_core/blob/main/docs)
 
 ## Run tests
 
@@ -90,7 +90,7 @@ sonar-scanner
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/MaJyxSoftware/qab_core/issues). You can also take a look at the [contributing guide](https://github.com/MaJyxSoftware/qab_core/blob/master/CONTRIBUTE.md).
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/MaJyxSoftware/qab_core/issues). You can also take a look at the [contributing guide](https://github.com/MaJyxSoftware/qab_core/blob/main/CONTRIBUTE.md).
 
 ## Show your support
 
@@ -103,6 +103,6 @@ Give a ⭐️ if this project helped you!
 ## 📝 License
 
 Copyright © 2021 [MaJyx](https://www.majyx.net).<br />
-This project is [MIT](https://github.com/MaJyxSoftware/qab_core/blob/master/LICENSE) licensed.
+This project is [MIT](https://github.com/MaJyxSoftware/qab_core/blob/main/LICENSE) licensed.
 
 ***
