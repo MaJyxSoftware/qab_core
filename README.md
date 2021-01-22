@@ -1,9 +1,13 @@
 <h1 align="center">Welcome to Quick API Builder Core 👋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.0.2-blue.svg?cacheSeconds=2592000" />
+  <img alt="Coverage" src="https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=coverage">
+  <img alt="Status" src="https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=alert_status">
+  <img alt="Maintainability" src="https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=sqale_rating">
   <a href="https://github.com/MaJyxSoftware/qab_core/blob/main/docs" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
   </a>
+  <img alt="Workflow" src="https://img.shields.io/github/workflow/status/MaJyxSoftware/qab_core/Test/main" />
   <a href="https://github.com/MaJyxSoftware/qab_core/blob/main/LICENSE" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
