@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to Quick API Builder Core 👋</h1>
+<h1 align="center">Welcome to Quick API Builder Core</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.0.2-blue.svg?cacheSeconds=2592000" />
   <img alt="Coverage" src="https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=coverage">
@@ -18,7 +18,7 @@
 
 > Quickly build secured and fast API
 
-### 🏠 [Homepage](https://github.com/MaJyxSoftware/qab_core)
+### [Homepage](https://github.com/MaJyxSoftware/qab_core)
 
 ## Install
 
@@ -85,14 +85,14 @@ sonar-scanner
 
 ## Author
 
-👤 **Benjamin Schwald**
+**Benjamin Schwald**
 
 * Website: https://www.majyx.net/
 * Twitter: [@MaJyxWorld](https://twitter.com/MaJyxWorld)
 * Github: [@HeavenSleep](https://github.com/HeavenSleep)
 * LinkedIn: [@Benjamin SCHWALD](https://www.linkedin.com/in/benjamin-schwald-765ab0bb/)
 
-## 🤝 Contributing
+## Contributing
 
 Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/MaJyxSoftware/qab_core/issues). You can also take a look at the [contributing guide](https://github.com/MaJyxSoftware/qab_core/blob/main/CONTRIBUTE.md).
 
@@ -104,7 +104,7 @@ Give a ⭐️ if this project helped you!
   <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
 
-## 📝 License
+## License
 
 Copyright © 2021 [MaJyx](https://www.majyx.net).<br />
 This project is [MIT](https://github.com/MaJyxSoftware/qab_core/blob/main/LICENSE) licensed.
