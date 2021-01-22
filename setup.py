@@ -3,7 +3,7 @@ import os
 import sys
 from setuptools import setup, find_packages
 
-VERSION = os.environ.get('GITHUB_REF', '0.0.3').replace('refs/heads/v', '')
+VERSION = os.environ.get('GITHUB_REF', '0.0.3').replace('refs/tags/v', '')
 
 is_wheel = 'bdist_wheel' in sys.argv
 
