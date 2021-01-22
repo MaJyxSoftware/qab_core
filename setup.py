@@ -3,7 +3,7 @@ import os
 import sys
 from setuptools import setup, find_packages
 
-VERSION = os.environ.get('GITHUB_REF', '0.0.3').replace('refs/tags/v', '')
+VERSION = os.environ.get('GITHUB_REF', '0.0.4').replace('refs/tags/v', '')
 
 is_wheel = 'bdist_wheel' in sys.argv
 
@@ -11,7 +11,7 @@ is_wheel = 'bdist_wheel' in sys.argv
 _license = ""
 if os.path.exists('LICENSE'):
     with open('LICENSE') as lf:
-        _license = lf.read()
+        _license = lf.readline().rstrip()
 
 description = ""
 if os.path.exists('README.md'):
@@ -32,7 +32,7 @@ setup_info = dict(
     description="QAB framework, high performance, secure, easy to learn, fast to code, ready for production",
     long_description=description,
     long_description_content_type="text/markdown",
-    url="https://github.com/majyx/qab_core",
+    url="https://github.com/MaJyxSoftware/qab_core",
     author="Benjamin Schwald",
     author_email="b.schwald@majyx.net",
     python_requires='>=3.7',

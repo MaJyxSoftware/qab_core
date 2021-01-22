@@ -1,24 +1,15 @@
-<h1 align="center">Welcome to Quick API Builder Core</h1>
-<p>
-  <img alt="Version" src="https://img.shields.io/badge/version-0.0.2-blue.svg?cacheSeconds=2592000" />
-  <img alt="Coverage" src="https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=coverage">
-  <img alt="Status" src="https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=alert_status">
-  <img alt="Maintainability" src="https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=sqale_rating">
-  <a href="https://github.com/MaJyxSoftware/qab_core/blob/main/docs" target="_blank">
-    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
-  </a>
-  <img alt="Workflow" src="https://img.shields.io/github/workflow/status/MaJyxSoftware/qab_core/Test/main" />
-  <a href="https://github.com/MaJyxSoftware/qab_core/blob/main/LICENSE" target="_blank">
-    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
-  </a>
-  <a href="https://twitter.com/MaJyxWorld" target="_blank">
-    <img alt="Twitter: MaJyxWorld" src="https://img.shields.io/twitter/follow/MaJyxWorld.svg?style=social" />
-  </a>
-</p>
+# Welcome to Quick API Builder Core
 
-> Quickly build secured and fast API
+![Version](https://img.shields.io/pypi/v/qab-core?style=flat&logo=pypi)
+![Coverage](https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=coverage)
+![Status](https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=alert_status)
+![Maintainability](https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=sqale_rating)
+[![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg?style=flat)](https://github.com/MaJyxSoftware/qab_core/blob/main/docs)
+![Workflow](https://img.shields.io/github/workflow/status/MaJyxSoftware/qab_core/Test/main?style=flat&logo=github)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat)](https://github.com/MaJyxSoftware/qab_core/blob/main/LICENSE)
+[![Twitter: MaJyxWorld](https://img.shields.io/twitter/follow/MaJyxWorld.svg?style=flat&logo=twitter)](https://twitter.com/MaJyxWorld)
 
-### [Homepage](https://github.com/MaJyxSoftware/qab_core)
+ Quickly build secured and fast API
 
 ## Install
 
@@ -94,19 +85,18 @@ sonar-scanner
 
 ## Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/MaJyxSoftware/qab_core/issues). You can also take a look at the [contributing guide](https://github.com/MaJyxSoftware/qab_core/blob/main/CONTRIBUTE.md).
+Contributions, issues and feature requests are welcome!
+
+Feel free to check [issues page](https://github.com/MaJyxSoftware/qab_core/issues). You can also take a look at the [contributing guide](https://github.com/MaJyxSoftware/qab_core/blob/main/CONTRIBUTE.md).
 
 ## Show your support
 
-Give a ⭐️ if this project helped you!
+Give a like if this project helped you!
 
-<a href="https://www.patreon.com/heavensleep">
-  <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
-</a>
+[![Patreon](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/heavensleep)
 
 ## License
 
-Copyright © 2021 [MaJyx](https://www.majyx.net).<br />
-This project is [MIT](https://github.com/MaJyxSoftware/qab_core/blob/main/LICENSE) licensed.
+Copyright © 2021 [MaJyx](https://www.majyx.net).
 
-***
+This project is [MIT](https://github.com/MaJyxSoftware/qab_core/blob/main/LICENSE) licensed.
