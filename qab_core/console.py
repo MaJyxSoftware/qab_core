@@ -10,7 +10,7 @@ def compress(tar_file, files):
     Adds files (`members`) to a tar_file and compress it
     """
     # open file for gzip compressed writing
-    if os.path.exists(dest):
+    if os.path.exists(tar_file):
         raise ConsoleCompressError(f"Couldn't compress the log, archive {tar_file} already exists")
 
     tar = tarfile.open(tar_file, mode="w:gz")
