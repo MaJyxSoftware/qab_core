@@ -1,6 +1,21 @@
 import os
+import tarfile
 import socket
 import datetime
+
+from qab_core.exception import ConsoleCompressError, ConsoleRotateError
+
+def compress(tar_file, files):
+    """
+    Adds files (`members`) to a tar_file and compress it
+    """
+    # open file for gzip compressed writing
+    tar = tarfile.open(tar_file, mode="w:gz")
+    for f in files:
+        # add file/folder/link to the tar file (compress)
+        tar.add(f)
+    # close the file
+    tar.close()
 
 class Console(object):
 
@@ -11,19 +26,8 @@ class Console(object):
         self.hostname = socket.gethostname()
         self.log_dir = log_dir
 
-        self.console_log = "{}console.log".format(self.log_dir)
-        self.access_log = "{}access.log".format(self.log_dir)
-        self.error_log = "{}error.log".format(self.log_dir)
-    
-    def access(self, msg):
-        '''
-        Write access log with apache like log format
-        '''
-        if not os.path.exists(self.log_dir):
-                os.makedirs(self.log_dir)
-
-        with open(self.access_log, "a") as log_file:
-            log_file.write("{}\n".format(msg))
+        self.console_log = os.path.join(self.log_dir, "console.log")
+        self.error_log = os.path.join(self.log_dir, "error.log")
 
     def log(self, text, log_type="INFO"):
         '''
@@ -36,6 +40,9 @@ class Console(object):
         if not self.nolog:
             if not os.path.exists(self.log_dir):
                 os.makedirs(self.log_dir)
+
+            if self.need_rotation(self.console_log):
+                self.rotate(self.console_log)
 
             with open(self.console_log, "a") as log_file:
                 log_file.write("[{}/{}][{}] {}\n".format(self.hostname, now, log_type, text))
@@ -56,12 +63,56 @@ class Console(object):
             self.log(text, log_type="ERROR")
 
         if not self.nolog:
+            if self.need_rotation(self.error_log):
+                self.rotate(self.error_log)
+
             with open(self.error_log, "a") as log_file:
                 log_file.write("[{}/{}][ERROR] {}\n".format(self.hostname, now, text))
 
-    def clean_log(self):
+    def need_rotation(self, log_file):
         '''
-        Truncate error & debug log files
+        Check if log file need rotation
         '''
-        open(self.console_log, "w")
-        open(self.error_log, "w")
+
+        if os.path.exists(log_file):
+            last_modified = datetime.datetime.fromtimestamp(os.path.getmtime(log_file))
+            today =  datetime.date.today()
+            start = datetime.datetime(today.year, today.month, today.day)
+
+            if last_modified < start:
+                self.debug(f"Log file {log_file} need rotation")
+                return True
+
+        return False
+
+    def rotate(self, log_file):
+        '''
+        Rotate log file
+        '''
+
+        self.debug(f"Rotating log file {log_file}")
+        yesterday = datetime.date.today() - datetime.timedelta(days=1)
+        yesterdays_date = yesterday.strftime('%Y%m%d')
+        if os.path.exists(log_file):
+            dest = f"{log_file}.{yesterdays_date}"
+            if os.path.exists(dest):
+                raise ConsoleRotateError(f"Couldn't rotate log file, file {dest} already exists")
+            self.debug(f"Rotating log file {log_file} to {dest}")
+            os.rename(log_file, dest)
+
+
+    def compress(self):
+        '''
+        Compress rotated log files
+        '''
+        self.debug(f"Compressing rotated log files")
+
+        for log_file in os.listdir(self.log_dir):
+            if not log_file.endswith('.log') and not log_file.endswith('.tar.gz'):
+                src = os.path.join(self.log_dir, log_file)
+                dest = os.path.join(self.log_dir, f"{log_file}.tar.gz")
+                if os.path.exists(dest):
+                    raise ConsoleCompressError(f"Couldn't compress the log, archive {dest} already exists")
+                self.debug(f"Compressing log file {src} to {dest}")
+                compress(dest, [src])
+                os.remove(src)

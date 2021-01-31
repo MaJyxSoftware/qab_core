@@ -11,6 +11,7 @@ from qab_core.config import load_config
 from qab_core.console import Console
 from qab_core.exception import ServerCertificateError
 from qab_core.plugin import GzipPlugin
+from qab_core.scheduler import Scheduler
 
 def _gen_openssl():
     import random
@@ -127,10 +128,8 @@ def gen_route(base_route, method):
 class Server(Bottle):
 
     def __init__(self):
-        #monkey.patch_all()
         super(Server, self).__init__()
-        
-        
+              
         config_files = []
         if os.path.exists('/etc/qab/app.json'):
             config_files.append('/etc/qab/app.json')
@@ -148,16 +147,16 @@ class Server(Bottle):
 
         self.catchall = True
 
-        self.console = Console(**self.config['console'])
+        self.__console = Console(**self.config['console'])
 
-        self.__scheduler = None
+        self.__scheduler = Scheduler(self, **self.config['scheduler'])
+        self.__scheduler.add("0 0 * * *", self.__console.compress)
 
         self.__init_hook()
         self.__init_plugin()
 
     def __init_hook(self):
         self.add_hook('after_request', self.enable_cors)
-        self.add_hook('after_request', self.logging)
 
     def __init_plugin(self):
         self.install(GzipPlugin())
@@ -178,27 +177,9 @@ class Server(Bottle):
     def scheduler(self):
         return self.__scheduler
 
-    def set_scheduler(self, scheduler):
-        self.__scheduler = scheduler
-
-    def logging(self):
-        '''
-        Log every request
-        '''
-        request_time = datetime.now()
-        log_string = '{} {} [{}] "{} {} {}" {} {} "{}"'
-        log_string = log_string.format(
-            request.environ.get('REMOTE_ADDR', '-'),
-            request.get_header('X-Forwarded-For', '-'),
-            request_time,
-            request.method,
-            request.url,
-            request.environ.get('SERVER_PROTOCOL', '-'),
-            response.status_code,
-            response.headers.get('X-Response-Size', '?'),
-            request.get_header('User-Agent', '-')
-        )
-        self.console.access(log_string)
+    @property
+    def console(self):
+        return self.__console
 
     def enable_cors(self):
         '''
@@ -216,7 +197,7 @@ class Server(Bottle):
             cors_domains = self.config['server'].get('cors_domains')
             if cors_domains:
                 if request.headers['host'] in cors_domains:
-                    cors_domain = request.headers.get('origin', 'http://{}'.format(request.headers['host']))
+                    cors_domain = request.headers.get('origin', f"http://{request.headers['host']}")
                 else:
                     cors_domain = None     
 
@@ -224,12 +205,6 @@ class Server(Bottle):
                 response.headers['Access-Control-Allow-Origin'] = cors_domain
                 response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
                 response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, Cache-Control, X-CSRF-Token, X-Auth'
-
-    def gzip(self):
-        if 'gzip' in request.get_header('accept-encoding', ""):
-            response.set_header("Content-Encoding", "gzip")
-            response.body = gzip.compress(response.body.encode('utf-8'), compresslevel=5)
-            self.console.debug("GZip response (req header: {})".format(request.get_header('accept-encoding', "")))
 
     def check_certificate(self):
         if not os.path.exists(self.config['server']['certificate']) and not os.path.exists(self.config['server']['private_key']):
@@ -304,37 +279,44 @@ class Server(Bottle):
 
         map_method = OrderedDict(sorted(map_method.items()))
 
+        if '/' not in map_method.keys():
+            self.__register("/", self.__redirect_home)
+
         for new_route in map_method.keys():
             self.__register(new_route, map_method[new_route])
+
+        self.map.sort()
 
     def start(self):
         '''
         Start server/listener
-        '''
-        try:
-            self.get_url("/")
-        except RouteBuildError:
-            self.__register("/", self.__redirect_home)
-            self.map.sort()
-
-        
+        '''        
         if self.check_certificate():
             self.console.log("Server started on port {} (debug: {})".format(self.config['server']['port'], self.console.is_debug))
 
-            self.run(
-                host=self.config['server']['address'],
-                port=self.config['server']['port'],
-                quiet=self.console.quiet,
-                debug=self.console.is_debug,
-                server='gunicorn',
-                certfile=self.config['server']['certificate'],
-                keyfile=self.config['server']['private_key'],
-                workers=self.config['server']['workers'],
-                threads=self.config['server']['threads'],
-                worker_tmp_dir="/dev/shm",
-                accesslog=self.console.access_log,
-                errorlog=self.console.console_log
-            )
+            if not self.scheduler.is_running:
+                self.scheduler.start()
+
+            try:
+                self.run(
+                    host=self.config['server']['address'],
+                    port=self.config['server']['port'],
+                    quiet=self.console.quiet,
+                    debug=self.console.is_debug,
+                    server='gunicorn',
+                    certfile=self.config['server']['certificate'],
+                    keyfile=self.config['server']['private_key'],
+                    workers=self.config['server']['workers'],
+                    threads=self.config['server']['threads'],
+                    worker_tmp_dir="/dev/shm",
+                    accesslog=self.console.access_log,
+                    errorlog=self.console.console_log
+                )
+            except Exception as ex:
+                self.console.error(str(ex))
+            finally:
+                if self.scheduler.is_running:
+                    self.scheduler.stop()
         else:
             self.console.error("Invalid cetificates, please check error above!")
             self.console.error("Exiting!")

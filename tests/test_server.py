@@ -17,6 +17,8 @@ DummyController(app).register()
 app.console.is_debug = True
 test_app = TestApp(app)
 
+DUMMY_EP = "/dummy"
+
 @pytest.fixture(scope="session")
 def start_server():
     my_env = os.environ.copy()
@@ -37,45 +39,30 @@ def start_server():
     # Shut it down at the end of the pytest session
     srv.terminate()
 
-def test_default():
-    resp = test_app.get('/dummy', status=[200])
-
-    assert  b"success" in resp.body
-
-def test_param():
-    resp = test_app.get('/dummy/hello/name/John', status=[200])
-
-    assert resp.body == b"Hello John"
-
-def test_optional_param():
-    resp = test_app.get('/dummy/hello/name/John/lastname/Wick', status=[200])
-
-    assert resp.body == b"Hello John Wick"
-
 def test_gzip():
-    resp = test_app.get('/dummy', status=[200], headers={
+    resp = test_app.get(DUMMY_EP, status=[200], headers={
         'Accept-Encoding': 'gzip'
     })
 
     assert resp.status_code == 200
 
 def test_cors():
-    resp = test_app.get('/dummy', status=[200])
+    resp = test_app.get(DUMMY_EP, status=[200])
     assert resp.headers.get('Access-Control-Allow-Origin') == None
 
     # Test CORS enabled
     app.config['server']['cors_enabled'] = True
-    resp = test_app.get('/dummy', status=[200])
+    resp = test_app.get(DUMMY_EP, status=[200])
     assert resp.headers.get('Access-Control-Allow-Origin')
 
     # Test CORS enabled + good host
     app.config['server']['cors_domains'] = [ 'localhost:80' ]
-    resp = test_app.get('/dummy', status=[200])
+    resp = test_app.get(DUMMY_EP, status=[200])
     assert resp.headers.get('Access-Control-Allow-Origin')
 
     # Test CORS enbled + bad host
     app.config['server']['cors_domains'] = [ 'wronghost.ltd' ]
-    resp = test_app.get('/dummy', status=[200])
+    resp = test_app.get(DUMMY_EP, status=[200])
     assert resp.headers.get('Access-Control-Allow-Origin') == None
 
 def test_cert():
@@ -115,6 +102,16 @@ def test_alternative_cert_gen():
     x509 = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, pub)
 
     assert x509.digest('sha1')
+
+def test_method_option():
+    resp = test_app.options(DUMMY_EP, status=[200])
+
+    assert resp.body == b"OK"
+
+def test_redirect_home():
+    resp = test_app.get('/', status=[302])
+
+    assert resp.headers['location']
 
 def test_start(start_server):
     # Disable self signed cert generation

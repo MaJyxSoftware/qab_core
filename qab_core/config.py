@@ -21,6 +21,9 @@ CONFIG_DEFAULT = {
         'nolog': str(os.environ.get('NOLOG', 'false')).lower() == "true",
         'debug': str(os.environ.get('DEBUG', 'false')).lower() == "true",
         'log_dir': os.environ.get('LOG_DIR', 'logs/')
+    },
+    'scheduler': {
+        'max_workers': int(os.environ.get('SCHEDULER_MAX_WORKERS', "10"))
     }
 }
 

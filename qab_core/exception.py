@@ -16,3 +16,21 @@ class ServerCertificateError(Exception):
     Should be raised when a SSL Certificate error occure when starting
     '''
     pass
+
+class SchedulerInvalidTaskError(Exception):
+    '''
+    Should be raised when an invalid task is being scheduled
+    '''
+    pass
+
+class ConsoleRotateError(Exception):
+    '''
+    Should be raised when an error occure during Console log rotation
+    '''
+    pass
+
+class ConsoleCompressError(Exception):
+    '''
+    Should be raised when an error occure during Console log compression
+    '''
+    pass

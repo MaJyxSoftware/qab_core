@@ -7,6 +7,7 @@ __pycache__/
 logs/
 config.json
 *.db
+.env
 
 # Build
 build/
