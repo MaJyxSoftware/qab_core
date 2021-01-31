@@ -10,6 +10,9 @@ def compress(tar_file, files):
     Adds files (`members`) to a tar_file and compress it
     """
     # open file for gzip compressed writing
+    if os.path.exists(dest):
+        raise ConsoleCompressError(f"Couldn't compress the log, archive {tar_file} already exists")
+
     tar = tarfile.open(tar_file, mode="w:gz")
     for f in files:
         # add file/folder/link to the tar file (compress)
@@ -111,8 +114,6 @@ class Console(object):
             if not log_file.endswith('.log') and not log_file.endswith('.tar.gz'):
                 src = os.path.join(self.log_dir, log_file)
                 dest = os.path.join(self.log_dir, f"{log_file}.tar.gz")
-                if os.path.exists(dest):
-                    raise ConsoleCompressError(f"Couldn't compress the log, archive {dest} already exists")
                 self.debug(f"Compressing log file {src} to {dest}")
                 compress(dest, [src])
                 os.remove(src)
