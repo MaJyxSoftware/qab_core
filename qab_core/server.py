@@ -190,14 +190,14 @@ class Server(Bottle):
 
         Domaine can be set using either configuration file `server.cors_domains` as an array or environment variable `CORS_DOMAINS` as a list of domain seperated by a `,`
         '''
-        if self.config['server'].get('cors_enabled'):
+        if self.config['server'].get('cors_enabled') and request.headers.get('X-Requested-With') == "XMLHttpRequest":
             self.console.debug("CORS enabled, adding headers")
             cors_domain = '*'
 
             cors_domains = self.config['server'].get('cors_domains')
             if cors_domains:
                 if request.headers['host'] in cors_domains:
-                    cors_domain = request.headers.get('origin', f"http://{request.headers['host']}")
+                    cors_domain = request.headers.get('origin')
                 else:
                     cors_domain = None     
 
