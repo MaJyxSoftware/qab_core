@@ -47,22 +47,28 @@ def test_gzip():
     assert resp.status_code == 200
 
 def test_cors():
-    resp = test_app.get(DUMMY_EP, status=[200])
+    ajax_headers = {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Origin': 'http://localhost:80'
+    }
+
+
+    resp = test_app.get(DUMMY_EP, status=[200], headers=ajax_headers)
     assert resp.headers.get('Access-Control-Allow-Origin') == None
 
     # Test CORS enabled
     app.config['server']['cors_enabled'] = True
-    resp = test_app.get(DUMMY_EP, status=[200])
+    resp = test_app.get(DUMMY_EP, status=[200], headers=ajax_headers)
     assert resp.headers.get('Access-Control-Allow-Origin')
 
     # Test CORS enabled + good host
     app.config['server']['cors_domains'] = [ 'localhost:80' ]
-    resp = test_app.get(DUMMY_EP, status=[200])
+    resp = test_app.get(DUMMY_EP, status=[200], headers=ajax_headers)
     assert resp.headers.get('Access-Control-Allow-Origin')
 
     # Test CORS enbled + bad host
     app.config['server']['cors_domains'] = [ 'wronghost.ltd' ]
-    resp = test_app.get(DUMMY_EP, status=[200])
+    resp = test_app.get(DUMMY_EP, status=[200], headers=ajax_headers)
     assert resp.headers.get('Access-Control-Allow-Origin') == None
 
 def test_cert():
