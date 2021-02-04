@@ -1,6 +1,6 @@
 from qab_core.server import Server
 
-from controllers.testcontrollers import TestController
+from controllers.test import TestController
 
 
 def start():

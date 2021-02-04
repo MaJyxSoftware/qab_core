@@ -28,6 +28,23 @@ def test_optional_param():
 
     assert resp.body == b"Hello John Wick"
 
+    resp = test_app.get('/dummy/multi/word1/hello', status=[200])
+
+    assert resp.body == b"Say hello "
+
+    resp = test_app.get('/dummy/multi/word2/world', status=[200])
+
+    assert resp.body == b"Say  world"
+
+    resp = test_app.get('/dummy/multi/word1/hello/word2/world', status=[200])
+
+    assert resp.body == b"Say hello world"
+
+def test_decorator():
+    resp = test_app.get('/dummy/deco', status=[200])
+
+    assert resp.body == b"decorated"
+
 def test_post():
     resp = test_app.post('/dummy/post', {
         'foo': 'bar'
