@@ -5,7 +5,7 @@ import datetime
 
 from qab_core.exception import ConsoleCompressError, ConsoleRotateError
 
-def compress(tar_file, files):
+def compress(tar_file, files, delete=True):
     """
     Adds files (`members`) to a tar_file and compress it
     """
@@ -17,8 +17,13 @@ def compress(tar_file, files):
     for f in files:
         # add file/folder/link to the tar file (compress)
         tar.add(f)
+
     # close the file
     tar.close()
+
+    if delete:
+        for f in files:
+            os.remove(f)
 
 class Console(object):
 
@@ -31,6 +36,7 @@ class Console(object):
 
         self.console_log = os.path.join(self.log_dir, "console.log")
         self.error_log = os.path.join(self.log_dir, "error.log")
+        self.access_log = os.path.join(self.log_dir, "access.log")
 
     def log(self, text, log_type="INFO"):
         '''
@@ -82,9 +88,7 @@ class Console(object):
             today =  datetime.date.today()
             start = datetime.datetime(today.year, today.month, today.day)
 
-            if last_modified < start:
-                self.debug(f"Log file {log_file} need rotation")
-                return True
+            return last_modified < start
 
         return False
 
@@ -93,15 +97,14 @@ class Console(object):
         Rotate log file
         '''
 
-        self.debug(f"Rotating log file {log_file}")
         yesterday = datetime.date.today() - datetime.timedelta(days=1)
         yesterdays_date = yesterday.strftime('%Y%m%d')
         if os.path.exists(log_file):
             dest = f"{log_file}.{yesterdays_date}"
             if os.path.exists(dest):
                 raise ConsoleRotateError(f"Couldn't rotate log file, file {dest} already exists")
-            self.debug(f"Rotating log file {log_file} to {dest}")
             os.rename(log_file, dest)
+            self.debug(f"Log file {log_file} renamed to {dest}")
 
 
     def compress(self):
@@ -116,4 +119,3 @@ class Console(object):
                 dest = os.path.join(self.log_dir, f"{log_file}.tar.gz")
                 self.debug(f"Compressing log file {src} to {dest}")
                 compress(dest, [src])
-                os.remove(src)
