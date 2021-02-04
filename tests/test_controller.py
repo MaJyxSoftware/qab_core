@@ -19,12 +19,12 @@ def test_default():
     assert  b"success" in resp.body
 
 def test_param():
-    resp = test_app.get('/dummy/hello/name/John', status=[200])
+    resp = test_app.get('/dummy/hello/John', status=[200])
 
     assert resp.body == b"Hello John"
 
 def test_optional_param():
-    resp = test_app.get('/dummy/hello/name/John/lastname/Wick', status=[200])
+    resp = test_app.get('/dummy/hello/John/lastname/Wick', status=[200])
 
     assert resp.body == b"Hello John Wick"
 

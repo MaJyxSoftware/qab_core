@@ -1,9 +1,9 @@
-import gzip
 import inspect
 import os
 import socket
 from collections import OrderedDict
 from datetime import datetime
+from itertools import chain, combinations
 
 from bottle import Bottle, RouteBuildError, redirect, request, response
 
@@ -84,43 +84,52 @@ def _gen_cryptography():
             serialization.PrivateFormat.PKCS8,
             serialization.NoEncryption())
 
-def gen_route(base_route, method):
-    route_params = ""
-    map_method = {}
+def all_subsets(ss):
+    if not ss:
+        return []
 
+    if len(ss) == 1:
+        return [ss]
+
+    return chain(*map(lambda x: combinations(ss, x), range(0, len(ss)+1)))
+
+def gen_routes(base_route, method):
+    map_method = {}
     method_spec = inspect.getfullargspec(method)
 
-    if method_spec.args and method_spec.args[0] == "func":
-        method_spec = inspect.getfullargspec(method())
-    
-    i = 0
+    # Check if is a decorator
+    if method_spec.args and method_spec.args[0] != "self":
+        # Gen routes for sub method of decorator
+        return gen_routes(base_route, method())
+
+    default_c = len(method_spec.defaults) if method_spec.defaults else 0
     args_c = len(method_spec.args)
-    defaults_c = len(
-        method_spec.defaults) if method_spec.defaults else 0
 
-    for arg in method_spec.args:
-        if arg == "level":
-            continue
+    args = method_spec.args.copy()
+    opts_args = args[args_c - default_c:]
+    required_args = args[0:args_c - default_c]
+    required_args.remove("self")
 
-        if method_spec.defaults and (args_c - defaults_c) <= i:
-            map_method.update({f"{base_route}/{method.__name__.replace('_', '/')}{route_params}": method})
-            map_method.update({f"{base_route}/{method.__name__.replace('_', '/')}{route_params}/": method})
+    # gen default route params
+    default_route_params = "/".join([f"<{a}>" for a in required_args])
+    if default_route_params:
+        default_route_params = f"/{default_route_params}"
 
-        if arg != "self":
-            route_params += f"/{arg}/<{arg}>"
+    for subset in all_subsets(opts_args):
+        route_params = []
+        for arg in subset:
+            # Manage optional params
+            if method_spec.defaults and arg not in method_spec.defaults:
+                route_params.append(f"{arg}/<{arg}>")
+                map_method.update({f"{base_route}/{method.__name__.replace('_', '/')}{default_route_params}/{'/'.join(route_params)}": method})
+                map_method.update({f"{base_route}/{method.__name__.replace('_', '/')}{default_route_params}/{'/'.join(route_params)}/": method})                
 
-        i += 1
-
-    if method.__name__ == "index" and route_params == "":
+    # Manage index as base route
+    if method.__name__ == "index" and not required_args and not opts_args:
         map_method.update({f"{base_route}": method})
         map_method.update({f"{base_route}/": method})
 
-    map_method.update({f"{base_route}/{method.__name__.replace('_', '/')}{route_params}": method})
-    map_method.update({f"{base_route}/{method.__name__.replace('_', '/')}{route_params}/": method})
-
-    if route_params == "":
-        map_method.update(
-            {f"{base_route}/{method.__name__.replace('_', '/')}/": method})
+    map_method.update({f"{base_route}/{method.__name__.replace('_', '/')}{default_route_params}": method})
 
     return map_method
 
@@ -151,6 +160,7 @@ class Server(Bottle):
 
         self.__scheduler = Scheduler(self, **self.config['scheduler'])
         self.__scheduler.add("0 0 * * *", self.__console.compress)
+        self.__scheduler.add("0 0 * * *", self.__console.rotate, self.__console.access_log)
 
         self.__init_hook()
         self.__init_plugin()
@@ -275,7 +285,7 @@ class Server(Bottle):
                 if attr in obj.pass_method or attr.startswith('_') or method.__module__ == "qab_core.controller":
                     continue
 
-                map_method.update(gen_route(base_route, method))
+                map_method.update(gen_routes(base_route, method))
 
         map_method = OrderedDict(sorted(map_method.items()))
 
