@@ -97,18 +97,13 @@ def gen_routes(base_route, method):
     map_method = {}
     method_spec = inspect.getfullargspec(method)
 
-    # Check if is a decorator
-    if method_spec.args and method_spec.args[0] != "self":
-        # Gen routes for sub method of decorator
-        return gen_routes(base_route, method())
-
     default_c = len(method_spec.defaults) if method_spec.defaults else 0
     args_c = len(method_spec.args)
 
     args = method_spec.args.copy()
     opts_args = args[args_c - default_c:]
     required_args = args[0:args_c - default_c]
-    required_args.remove("self")
+    required_args.remove("self") 
 
     # gen default route params
     default_route_params = "/".join([f"<{a}>" for a in required_args])
@@ -119,10 +114,9 @@ def gen_routes(base_route, method):
         route_params = []
         for arg in subset:
             # Manage optional params
-            if method_spec.defaults and arg not in method_spec.defaults:
-                route_params.append(f"{arg}/<{arg}>")
-                map_method.update({f"{base_route}/{method.__name__.replace('_', '/')}{default_route_params}/{'/'.join(route_params)}": method})
-                map_method.update({f"{base_route}/{method.__name__.replace('_', '/')}{default_route_params}/{'/'.join(route_params)}/": method})                
+            route_params.append(f"{arg}/<{arg}>")
+            map_method.update({f"{base_route}/{method.__name__.replace('_', '/')}{default_route_params}/{'/'.join(route_params)}": method})
+            map_method.update({f"{base_route}/{method.__name__.replace('_', '/')}{default_route_params}/{'/'.join(route_params)}/": method})                
 
     # Manage index as base route
     if method.__name__ == "index" and not required_args and not opts_args:
