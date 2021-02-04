@@ -79,6 +79,7 @@ def test_cert():
             os.remove(file.path)
 
     # No certs + No gen
+    app.config['server']['generate_ssl'] = False
     assert app.check_certificate() == False
 
     # No cert + self-signed gen
