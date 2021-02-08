@@ -38,6 +38,9 @@ class Console(object):
         self.error_log = os.path.join(self.log_dir, "error.log")
         self.access_log = os.path.join(self.log_dir, "access.log")
 
+        if self.need_rotation(self.access_log):
+            self.rotate(self.access_log)
+
     def log(self, text, log_type="INFO"):
         '''
         Write log message
@@ -116,6 +119,6 @@ class Console(object):
         for log_file in os.listdir(self.log_dir):
             if not log_file.endswith('.log') and not log_file.endswith('.tar.gz'):
                 src = os.path.join(self.log_dir, log_file)
-                dest = os.path.join(self.log_dir, f"{log_file}.tar.gz")
+                dest = f"{src}.tar.gz"
                 self.debug(f"Compressing log file {src} to {dest}")
                 compress(dest, [src])
