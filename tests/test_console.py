@@ -33,14 +33,21 @@ def test_rotate():
 def test_compress():
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     yesterdays_date = yesterday.strftime('%Y%m%d')
+    src = f"{app.console.console_log}.{yesterdays_date}"
     dest = f"{app.console.console_log}.{yesterdays_date}.tar.gz"
 
     if os.path.exists(dest):
         os.remove(dest)
 
+    if not os.path.exists(src):
+        app.console.rotate(app.console.console_log)
     app.console.compress()
     assert os.path.exists(dest)
 
     app.console.rotate(app.console.console_log)
     with pytest.raises(ConsoleCompressError):
         app.console.compress()
+
+    if os.path.exists(src):
+        # Remove rotated files that couldn't be compressed
+        os.remove(src)
