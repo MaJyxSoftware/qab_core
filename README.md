@@ -1,9 +1,9 @@
 # Welcome to Quick API Builder Core
 
 ![Version](https://img.shields.io/pypi/v/qab-core?style=flat&logo=pypi)
-![Coverage](https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=coverage)
-![Status](https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=alert_status)
-![Maintainability](https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=sqale_rating)
+![Coverage](https://sonar.lab.majyx.net/api/project_badges/measure?project=qab_core&metric=coverage)
+![Status](https://sonar.lab.majyx.net/api/project_badges/measure?project=qab_core&metric=alert_status)
+![Maintainability](https://sonar.lab.majyx.net/api/project_badges/measure?project=qab_core&metric=sqale_rating)
 [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg?style=flat)](https://github.com/MaJyxSoftware/qab_core/blob/main/docs)
 ![Workflow](https://img.shields.io/github/workflow/status/MaJyxSoftware/qab_core/Test/main?style=flat&logo=github)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat)](https://github.com/MaJyxSoftware/qab_core/blob/main/LICENSE)
