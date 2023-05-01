@@ -2,7 +2,7 @@
 
 ![Version](https://img.shields.io/pypi/v/qab-core?style=flat&logo=pypi)
 [![Coverage](https://sonar.lab.majyx.net/api/project_badges/measure?project=qab_core&metric=coverage&token=sqb_a647526989f7f9fd486f4f3f8e3f1250aa3a82a7)](https://sonar.lab.majyx.net/dashboard?id=qab_core)
-[![Quality gate](https://sonar.lab.majyx.net/api/project_badges/quality_gate?project=qab_core&token=sqb_a647526989f7f9fd486f4f3f8e3f1250aa3a82a7)](https://sonar.lab.majyx.net/dashboard?id=qab_core)
+[![Quality Gate Status](https://sonar.lab.majyx.net/api/project_badges/measure?project=qab_core&metric=alert_status&token=sqb_a647526989f7f9fd486f4f3f8e3f1250aa3a82a7)](https://sonar.lab.majyx.net/dashboard?id=qab_core)
 [![Maintainability Rating](https://sonar.lab.majyx.net/api/project_badges/measure?project=qab_core&metric=sqale_rating&token=sqb_a647526989f7f9fd486f4f3f8e3f1250aa3a82a7)](https://sonar.lab.majyx.net/dashboard?id=qab_core)
 [![Reliability Rating](https://sonar.lab.majyx.net/api/project_badges/measure?project=qab_core&metric=reliability_rating&token=sqb_a647526989f7f9fd486f4f3f8e3f1250aa3a82a7)](https://sonar.lab.majyx.net/dashboard?id=qab_core)
 [![Security Rating](https://sonar.lab.majyx.net/api/project_badges/measure?project=qab_core&metric=security_rating&token=sqb_a647526989f7f9fd486f4f3f8e3f1250aa3a82a7)](https://sonar.lab.majyx.net/dashboard?id=qab_core)
