@@ -7,7 +7,7 @@
 [![Reliability Rating](https://sonar.lab.majyx.net/api/project_badges/measure?project=qab_core&metric=reliability_rating&token=sqb_a647526989f7f9fd486f4f3f8e3f1250aa3a82a7)](https://sonar.lab.majyx.net/dashboard?id=qab_core)
 [![Security Rating](https://sonar.lab.majyx.net/api/project_badges/measure?project=qab_core&metric=security_rating&token=sqb_a647526989f7f9fd486f4f3f8e3f1250aa3a82a7)](https://sonar.lab.majyx.net/dashboard?id=qab_core)
 [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg?style=flat)](https://github.com/MaJyxSoftware/qab_core/blob/main/docs)
-![Workflow](https://img.shields.io/github/workflow/status/MaJyxSoftware/qab_core/Test/main?style=flat&logo=github)
+[![Test](https://github.com/MaJyxSoftware/qab_core/actions/workflows/build.yml/badge.svg)](https://github.com/MaJyxSoftware/qab_core/actions/workflows/build.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat)](https://github.com/MaJyxSoftware/qab_core/blob/main/LICENSE)
 [![Twitter: MaJyxWorld](https://img.shields.io/twitter/follow/MaJyxWorld.svg?style=flat&logo=twitter)](https://twitter.com/MaJyxWorld)
 
