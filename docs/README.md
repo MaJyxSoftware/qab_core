@@ -1,32 +1,50 @@
-# Documentation
+# QAB Core Documentation
 
-Here is the documentation
+Welcome to the documentation for QAB Core, the core component for building secure and fast APIs. QAB Core is based on the Bottle framework and uses Gunicorn as the server. This documentation provides an overview, configuration details, and links to in-depth guides for each major component.
 
-- [Configuration](#configuration)
-  - [Parameters](#parameters)
-  - [Files location](#files-location)
-  - [Sample](#sample)
-  - [Custom](#custom)
-- [Server](#server)
-  - [Routes management](#routes-management)
-  - [Start](#start)
-- [Console](#console)
-  - [Log](#log)
-  - [Error](#error)
-  - [Debug](#debug)
-- [Controler](#controler)
-  - [Register](#register)
-  - [Render](#render)
-  - [Abort](#abort)
-- [Scheduler](#scheduler)
-  - [Start](#start-1)
-  - [Stop](#stop)
-  - [Add](#add)
+## Table of Contents
 
+- [QAB Core Documentation](#qab-core-documentation)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Getting Started](#getting-started)
+  - [Configuration](#configuration)
+    - [Parameters](#parameters)
+    - [Files location](#files-location)
+    - [Sample](#sample)
+    - [Custom](#custom)
+  - [Project Structure](#project-structure)
+  - [Components Guides](#components-guides)
+    - [Server](#server)
+    - [Console](#console)
+    - [Controller](#controller)
+    - [Scheduler](#scheduler)
+  - [Usage Example](#usage-example)
+
+## Overview
+
+QAB Core is designed for rapid development of secure, production-ready APIs. It provides:
+- Automatic route registration based on controller methods
+- Configurable server and scheduler
+- Pluggable logging and error handling
+- Easy integration with Bottle and Gunicorn
+
+## Getting Started
+
+1. **Install dependencies:**
+   ```sh
+   pip install -r requirements.txt
+   ```
+2. **Set up configuration:**
+   - Use the provided sample config or environment variables.
+3. **Run your API server:**
+   ```sh
+   python qab_core/server.py
+   ```
 
 ## Configuration
 
-By design, all configuration variables have a default value allowing quick testing
+By design, all configuration variables have a default value allowing quick testing.
 
 ### Parameters
 
@@ -39,7 +57,7 @@ If you want to customize those configuration, you have 2 ways to do it:
 | - | - | - | - |
 | server.port | LISTEN_PORT | Set listen server listen port | `8443` |
 | server.address | LISTEN_ADDRESS | Set listen server address | `0.0.0.0` |
-| server.cors_enbaled | CORS_ENABLED | Enable CORS header | `False` |
+| server.cors_enabled | CORS_ENABLED | Enable CORS header | `False` |
 | server.cors_domains | CORS_DOMAINS | Allowed domains for CORS usage | `*` (shouldn't be used in production)|
 | server.certificate | CERTIFICATE | Path to SSL publique certificate | `certs/fullchain.pem` |
 | server.private_key | PRIVKEY | Path to SSL private key | `certs/privkey.pem` |
@@ -54,11 +72,10 @@ If you want to customize those configuration, you have 2 ways to do it:
 
 ### Files location
 
-[Source](https://github.com/MaJyxSoftware/qab_core/blob/main/qab_core/server.py#L136)
-
-1) `/etc/qab/app.json`
-2) `~/.qab.json`
-3) `./config.json`
+Configuration files are loaded in the following order (highest priority last):
+1. `/etc/qab/app.json`
+2. `~/.qab.json`
+3. `./config.json`
 
 ### Sample
 
@@ -105,9 +122,29 @@ You can add custom configuration for your controllers, for exemple:
 }
 ```
 
+## Project Structure
 
+```
+```
 
+## Components Guides
 
+### Server
 
+See [server.md](./server.md)
 
+### Console
 
+See [console.md](./console.md)
+
+### Controller
+
+See [controller.md](./controller.md)
+
+### Scheduler
+
+See [scheduler.md](./scheduler.md)
+
+## Usage Example
+
+See [samples folder](/samples)

@@ -9,13 +9,15 @@
     - [Error](#error)
     - [Debug](#debug)
 
+[← Back to Main Documentation](./README.md)
+
 ## Description
 
-The `Console` is used to log the application and alos manage it's own lifecycle (log rotation and compression).
+The `Console` class is responsible for logging application activity, including errors and debug information. It provides a unified interface for outputting messages to the console and log files. Use this class to handle all logging, error, and debug output in your application.
 
-It's binded to the application and therefor accessible to any controller.
+The `Console` is used to log the application and also manage its own lifecycle (log rotation and compression).
 
-It has few methods to allow you to quickly trace your application.
+It's binded to the application and therefore accessible to any controller.
 
 ## Methods
 
