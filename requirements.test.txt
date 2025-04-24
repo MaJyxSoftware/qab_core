@@ -1,0 +1,6 @@
+pytest
+pytest-cov
+webtest
+decorator
+tox
+tox-pyenv

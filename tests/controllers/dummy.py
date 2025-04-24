@@ -27,3 +27,9 @@ class DummyController(Controller):
     @test_decorator
     def deco(self):
         return "decorated"
+    
+    def nojson(self):
+        return self.render("html response", data="hello from text/html")
+    
+    def oups(self):
+        return self.abort()

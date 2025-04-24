@@ -37,8 +37,7 @@ def load_config(*files):
 
     for file in files:
         if not os.path.exists(file):
-            raise ConfigNotFoundError(
-                "Configuration file {} not found".format(file))
+            raise ConfigNotFoundError(file)
 
         with open(file) as config_file:
             try:

@@ -1,5 +1,7 @@
 import os
 import subprocess
+from multiprocessing import Process
+import time
 
 import pytest
 from webtest import TestApp
@@ -19,7 +21,7 @@ test_app = TestApp(app)
 
 DUMMY_EP = "/dummy"
 
-@pytest.fixture(scope="session")
+@pytest.fixture(autouse=True, scope="session")
 def start_server():
     my_env = os.environ.copy()
     my_env["GENERATE_SSL"] = "true"
@@ -120,7 +122,7 @@ def test_redirect_home():
 
     assert resp.headers['location']
 
-def test_start(start_server):
+def test_start():
     # Disable self signed cert generation
     certs_path='certs/'
     if os.path.exists(certs_path):

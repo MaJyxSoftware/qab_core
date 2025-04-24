@@ -11,6 +11,9 @@
 
  Quickly build secured and fast API
 
+ QAB Core is the core component to build secure and fast API
+ It is based on the Bottle framework and use Gunicorn as server
+
 ## Install
 
 ```sh

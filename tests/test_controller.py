@@ -1,4 +1,5 @@
 
+from cgi import test
 from qab_core.server import Server
 from webtest import TestApp
 
@@ -15,6 +16,8 @@ test_app = TestApp(app)
 
 def test_default():
     resp = test_app.get('/dummy', status=[200])
+    
+    print(DummyController(app))
 
     assert  b"success" in resp.body
 
@@ -56,3 +59,14 @@ def test_rebased_route():
     resp = test_app.get('/', status=[200])
 
     assert resp.body == b"Hello world!"
+
+def test_abort():
+    resp = test_app.get('/dummy/oups', status=[404])
+    
+    assert resp.json['status'] == "error"
+
+def test_render_simple():
+    resp = test_app.get('/dummy/nojson', status=[200])
+    
+    assert resp.body == b"hello from text/html"
+    assert resp.headers['X-Server-Msg'] == "html response"

@@ -10,7 +10,7 @@ from bottle import Bottle, RouteBuildError, redirect, request, response
 from qab_core.config import load_config
 from qab_core.console import Console
 from qab_core.exception import ServerCertificateError
-from qab_core.plugin import GzipPlugin
+from qab_core.plugins import GzipPlugin
 from qab_core.scheduler import Scheduler
 
 def _gen_openssl():
@@ -149,6 +149,8 @@ class Server(Bottle):
         self.map = []
 
         self.catchall = True
+        
+        self.is_running = False
 
         self.__console = Console(**self.config['console'])
 
@@ -302,6 +304,7 @@ class Server(Bottle):
                 self.scheduler.start()
 
             try:
+                self.is_running = True
                 self.run(
                     host=self.config['server']['address'],
                     port=self.config['server']['port'],
@@ -321,6 +324,8 @@ class Server(Bottle):
             finally:
                 if self.scheduler.is_running:
                     self.scheduler.stop()
+                    
+                self.is_running = False
         else:
             self.console.error("Invalid cetificates, please check error above!")
             self.console.error("Exiting!")

@@ -1,9 +1,9 @@
 
 class ConfigNotFoundError(Exception):
-    '''
-    Should be raised when trying tp load a configuration file that doesn't exists
-    '''
-    pass
+    def __init__(self, file_path, message="Configuration file not found"):
+        self.file_path = file_path
+        self.message = f"{message}: {file_path}"
+        super().__init__(self.message)
 
 class ConfigParseFailureError(Exception):
     '''
