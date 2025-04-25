@@ -1,34 +1,46 @@
-# Welcome to Quick API Builder Core
+# 🚀 Quick API Builder Core (QAB Core)
 
-![Version](https://img.shields.io/pypi/v/qab-core?style=flat&logo=pypi)
-![Coverage](https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=coverage)
-![Status](https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=alert_status)
-![Maintainability](https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=sqale_rating)
+[![PyPI Version](https://img.shields.io/pypi/v/qab-core?style=flat&logo=pypi)](https://pypi.org/project/qab-core/)
+[![Coverage](https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=coverage)](https://sonar.majyx.net/dashboard?id=qab_core)
+[![Quality Gate](https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=alert_status)](https://sonar.majyx.net/dashboard?id=qab_core)
+[![Maintainability](https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=sqale_rating)](https://sonar.majyx.net/dashboard?id=qab_core)
 [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg?style=flat)](https://github.com/MaJyxSoftware/qab_core/blob/main/docs)
-![Workflow](https://img.shields.io/github/workflow/status/MaJyxSoftware/qab_core/Test/main?style=flat&logo=github)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/MaJyxSoftware/qab_core/Test/main?style=flat&logo=github)](https://github.com/MaJyxSoftware/qab_core/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat)](https://github.com/MaJyxSoftware/qab_core/blob/main/LICENSE)
 [![Twitter: MaJyxWorld](https://img.shields.io/twitter/follow/MaJyxWorld.svg?style=flat&logo=twitter)](https://twitter.com/MaJyxWorld)
 
- Quickly build secured and fast API
+> **Quickly build secure and blazing-fast APIs with Python.**  
+> QAB Core is built on top of [Bottle](https://bottlepy.org/) and uses [Gunicorn](https://gunicorn.org/) for production performance.
 
- QAB Core is the core component to build secure and fast API
- It is based on the Bottle framework and use Gunicorn as server
+---
 
-## Install
+## ✨ Features
+
+- ⚡ **Ultra-fast API creation** with minimal boilerplate
+- 🔒 **Secure by default** (SSL, best practices)
+- 🧩 **Pluggable architecture** for controllers and extensions
+- 🧪 **Easy testing** with Pytest & Tox
+- 📈 **Built-in code coverage & SonarQube support**
+- 📝 **Comprehensive documentation**
+
+---
+
+## 📦 Installation
 
 ```sh
 pip install qab_core
 ```
 
-## Usage
+---
 
-Make your controllers such as:
+## 🚀 Quick Start
+
+### 1. Create a Controller
 
 ```python
 from qab_core.controller import Controller
 
 class TestController(Controller):
-    
     def index(self):
         return "Hello world!"
 
@@ -36,70 +48,79 @@ class TestController(Controller):
         return f"Hello {firstname} {lastname}"
 ```
 
-Then create the startup file, and run it as you wish:
+### 2. Create a Startup File
 
 ```python
 from qab_core.server import Server
-
 from controllers.testcontrollers import TestController
-
 
 def start():
     app = Server()
-    
     TestController(app).register()
-
     app.start()
 
 if __name__ == "__main__":
     start()
 ```
 
-If you want more information, please, refer to the [documentation](https://github.com/MaJyxSoftware/qab_core/blob/main/docs)
+---
 
-## Run tests
+## 🧪 Running Tests
 
-### PyTest
+**With Pytest:**
 
 ```sh
 pytest --cov=qab_core --cov-report=xml --cov-report=html
 ```
 
-### TOX
+**With Tox:**
 
 ```sh
 tox
 ```
 
-### SonarQube
+**With SonarQube:**
 
 ```sh
 sonar-scanner
 ```
 
-## Author
+---
 
-**Benjamin Schwald**
+## 📚 Documentation
 
-* Website: https://www.majyx.net/
-* Twitter: [@MaJyxWorld](https://twitter.com/MaJyxWorld)
-* Github: [@HeavenSleep](https://github.com/HeavenSleep)
-* LinkedIn: [@Benjamin SCHWALD](https://www.linkedin.com/in/benjamin-schwald-765ab0bb/)
+Full documentation is available [here](https://github.com/MaJyxSoftware/qab_core/blob/main/docs).
 
-## Contributing
+---
 
-Contributions, issues and feature requests are welcome!
+## 👤 Author
 
-Feel free to check [issues page](https://github.com/MaJyxSoftware/qab_core/issues). You can also take a look at the [contributing guide](https://github.com/MaJyxSoftware/qab_core/blob/main/CONTRIBUTE.md).
+> **Benjamin Schwald**
 
-## Show your support
+- 🌐 [majyx.net](https://www.majyx.net/)
+- 🐦 [@MaJyxWorld](https://twitter.com/MaJyxWorld)
+- 💼 [LinkedIn](https://www.linkedin.com/in/benjamin-schwald-765ab0bb/)
+- 💻 [GitHub](https://github.com/HeavenSleep)
 
-Give a like if this project helped you!
+---
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome!  
+Check the [issues page](https://github.com/MaJyxSoftware/qab_core/issues) or see the [contributing guide](https://github.com/MaJyxSoftware/qab_core/blob/main/CONTRIBUTE.md).
+
+---
+
+## 💖 Show your support
+
+If you find this project useful, please give it a ⭐️ or consider supporting:
 
 [![Patreon](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/heavensleep)
 
-## License
+---
 
-Copyright © 2021 [MaJyx](https://www.majyx.net).
+## 📝 License
+
+Copyright © 2021-2025 [MaJyx](https://www.majyx.net).
 
 This project is [MIT](https://github.com/MaJyxSoftware/qab_core/blob/main/LICENSE) licensed.
