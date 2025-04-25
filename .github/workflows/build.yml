@@ -33,6 +33,7 @@ jobs:
       run: |
         pytest --cov=qab_core --cov-report=xml --cov-report=html
     - name: SonarQube Scan
-      uses: SonarSource/sonarqube-scan-action@v4.1.0 # Use latest release if available
+      uses: SonarSource/sonarqube-scan-action@v5.1.0 # Use latest release if available
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
