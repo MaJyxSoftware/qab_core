@@ -1,11 +1,11 @@
 # 🚀 Quick API Builder Core (QAB Core)
 
 [![PyPI Version](https://img.shields.io/pypi/v/qab-core?style=flat&logo=pypi)](https://pypi.org/project/qab-core/)
-[![Coverage](https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=coverage)](https://sonar.majyx.net/dashboard?id=qab_core)
-[![Quality Gate](https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=alert_status)](https://sonar.majyx.net/dashboard?id=qab_core)
-[![Maintainability](https://sonar.majyx.net/api/project_badges/measure?project=qab_core&metric=sqale_rating)](https://sonar.majyx.net/dashboard?id=qab_core)
+[![Coverage](https://sonar.lab.majyx.net/api/project_badges/measure?project=qab_core&metric=coverage&token=sqb_a647526989f7f9fd486f4f3f8e3f1250aa3a82a7)](https://sonar.lab.majyx.net/dashboard?id=qab_core)
+[![Quality Gate Status](https://sonar.lab.majyx.net/api/project_badges/measure?project=qab_core&metric=alert_status&token=sqb_a647526989f7f9fd486f4f3f8e3f1250aa3a82a7)](https://sonar.lab.majyx.net/dashboard?id=qab_core)
+[![Maintainability Rating](https://sonar.lab.majyx.net/api/project_badges/measure?project=qab_core&metric=sqale_rating&token=sqb_a647526989f7f9fd486f4f3f8e3f1250aa3a82a7)](https://sonar.lab.majyx.net/dashboard?id=qab_core)
 [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg?style=flat)](https://github.com/MaJyxSoftware/qab_core/blob/main/docs)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/MaJyxSoftware/qab_core/Test/main?style=flat&logo=github)](https://github.com/MaJyxSoftware/qab_core/actions)
+[![Build Status](https://github.com/MaJyxSoftware/qab_core/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/MaJyxSoftware/qab_core/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat)](https://github.com/MaJyxSoftware/qab_core/blob/main/LICENSE)
 [![Twitter: MaJyxWorld](https://img.shields.io/twitter/follow/MaJyxWorld.svg?style=flat&logo=twitter)](https://twitter.com/MaJyxWorld)
 
