@@ -1,5 +1,4 @@
 
-from cgi import test
 from qab_core.server import Server
 from webtest import TestApp
 
@@ -16,10 +15,11 @@ test_app = TestApp(app)
 
 def test_default():
     resp = test_app.get('/dummy', status=[200])
-    
-    print(DummyController(app))
 
     assert  b"success" in resp.body
+
+def test_name():
+    assert f"{DummyController}" == "<class 'tests.controllers.dummy.DummyController'>"
 
 def test_param():
     resp = test_app.get('/dummy/hello/John', status=[200])
