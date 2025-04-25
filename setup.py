@@ -35,7 +35,7 @@ setup_info = dict(
     url="https://github.com/MaJyxSoftware/qab_core",
     author="Benjamin Schwald",
     author_email="b.schwald@majyx.net",
-    python_requires='>=3.7',
+    python_requires='>=3.9',
     classifiers=[
         'Natural Language :: English',
         'License :: OSI Approved :: MIT License',
@@ -45,9 +45,11 @@ setup_info = dict(
         'Operating System :: POSIX :: Linux',
         'Programming Language :: Python',
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         'Topic :: Software Development :: Libraries',
         'Topic :: Utilities'
     ],

@@ -3,4 +3,5 @@ pytest-cov
 webtest
 decorator
 tox
-tox-pyenv
+virtualenv-pyenv
+coverage
