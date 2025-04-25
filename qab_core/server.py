@@ -1,8 +1,8 @@
 import inspect
 import os
 import socket
-from collections import OrderedDict
 from datetime import datetime
+from collections import OrderedDict
 from itertools import chain, combinations
 
 from bottle import Bottle, RouteBuildError, redirect, request, response
@@ -13,39 +13,8 @@ from qab_core.exception import ServerCertificateError
 from qab_core.plugins import GzipPlugin
 from qab_core.scheduler import Scheduler
 
-def _gen_openssl():
-    import random
-
-    from OpenSSL import crypto
-
-    pkey = crypto.PKey()
-    pkey.generate_key(crypto.TYPE_RSA, 2048)
-
-    x509 = crypto.X509()
-    subject = x509.get_subject()
-    subject.commonName = socket.gethostname()
-    x509.set_issuer(subject)
-    x509.gmtime_adj_notBefore(0)
-    x509.gmtime_adj_notAfter(5*365*24*60*60)
-    x509.set_pubkey(pkey)
-    x509.set_serial_number(random.randrange(100000))
-    x509.set_version(2)
-    x509.add_extensions([
-        crypto.X509Extension(b'subjectAltName', False,
-            ','.join([
-                f'DNS:{socket.gethostname()}',
-                f'DNS:*.{socket.gethostname()}',
-                'DNS:localhost',
-                'DNS:*.localhost']).encode()),
-        crypto.X509Extension(b"basicConstraints", True, b"CA:false")])
-
-    x509.sign(pkey, 'SHA256')
-
-    return crypto.dump_certificate(crypto.FILETYPE_PEM, x509), crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey)
-
 def _gen_cryptography():
     import datetime
-
     from cryptography import x509
     from cryptography.hazmat.backends import default_backend
     from cryptography.hazmat.primitives import hashes, serialization
@@ -143,14 +112,12 @@ class Server(Bottle):
         if os.path.exists('config.json'):
             config_files.append('config.json')
 
-        self.config = load_config(*config_files)
+        self.config.update(load_config(*config_files))
 
         self.hostname = socket.gethostname()
         self.map = []
 
         self.catchall = True
-        
-        self.is_running = False
 
         self.__console = Console(**self.config['console'])
 
@@ -248,13 +215,10 @@ class Server(Bottle):
         pub = None
         priv = None
         try:
-            pub, priv = _gen_openssl()
+            pub, priv = _gen_cryptography()
         except Exception:
-            try:
-                pub, priv = _gen_cryptography()
-            except Exception:
-                self.console.error("Couldn't generate self-signed certificate!!!")
-                return False
+            self.console.error("Couldn't generate self-signed certificate!!!")
+            return False
         
         with open(self.config['server']['certificate'], 'wb') as pub_file, open(self.config['server']['private_key'], 'wb') as priv_file:
             pub_file.write(pub)
@@ -304,7 +268,6 @@ class Server(Bottle):
                 self.scheduler.start()
 
             try:
-                self.is_running = True
                 self.run(
                     host=self.config['server']['address'],
                     port=self.config['server']['port'],
@@ -324,8 +287,7 @@ class Server(Bottle):
             finally:
                 if self.scheduler.is_running:
                     self.scheduler.stop()
-                    
-                self.is_running = False
+
         else:
             self.console.error("Invalid cetificates, please check error above!")
             self.console.error("Exiting!")
