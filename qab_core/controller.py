@@ -31,16 +31,23 @@ class Controller(object):
             response.content_type = 'application/json'
 
         response.status = code
-        res = {
-            "status": status,
-            "message": msg,
-            "code": code
-        }
+        
+        if response.content_type == 'application/json':
+            res = {
+                "status": status,
+                "message": msg,
+                "code": code
+            }
 
-        if data is not None:
-            res["data"] = data
+            if data is not None:
+                res["data"] = data
 
-        res = json.dumps(res)
+            res = json.dumps(res)
+        else:
+            res = data
+            
+            if msg:
+                response.add_header('X-Server-Msg', msg)
 
         self.app.console.debug("Data sent: {} (size: {})".format(data, len(res)))
 
@@ -51,4 +58,4 @@ class Controller(object):
         Send error response
         '''
 
-        return self.render("Error {}: {}".format(code, text), text, "error", code)
+        return self.render("Error {}: {}".format(code, text), {'error': text}, "error", code)

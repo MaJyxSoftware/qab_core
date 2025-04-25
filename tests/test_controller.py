@@ -18,6 +18,9 @@ def test_default():
 
     assert  b"success" in resp.body
 
+def test_name():
+    assert f"{DummyController}" == "<class 'tests.controllers.dummy.DummyController'>"
+
 def test_param():
     resp = test_app.get('/dummy/hello/John', status=[200])
 
@@ -56,3 +59,14 @@ def test_rebased_route():
     resp = test_app.get('/', status=[200])
 
     assert resp.body == b"Hello world!"
+
+def test_abort():
+    resp = test_app.get('/dummy/oups', status=[404])
+    
+    assert resp.json['status'] == "error"
+
+def test_render_simple():
+    resp = test_app.get('/dummy/nojson', status=[200])
+    
+    assert resp.body == b"hello from text/html"
+    assert resp.headers['X-Server-Msg'] == "html response"

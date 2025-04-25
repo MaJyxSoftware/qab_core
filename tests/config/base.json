@@ -1,0 +1,6 @@
+{
+    "custom": {
+        "foo": "bar",
+        "baz": "qux"
+    }
+}

@@ -1,0 +1,7 @@
+pytest
+pytest-cov
+webtest
+decorator
+tox
+virtualenv-pyenv
+coverage

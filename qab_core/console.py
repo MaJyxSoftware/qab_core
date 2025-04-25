@@ -114,7 +114,7 @@ class Console(object):
         '''
         Compress rotated log files
         '''
-        self.debug(f"Compressing rotated log files")
+        self.debug("Compressing rotated log files")
 
         for log_file in os.listdir(self.log_dir):
             if not log_file.endswith('.log') and not log_file.endswith('.tar.gz'):

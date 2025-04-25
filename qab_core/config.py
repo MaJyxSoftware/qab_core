@@ -1,3 +1,4 @@
+import collections.abc
 import os
 import json
 import multiprocessing
@@ -37,12 +38,16 @@ def load_config(*files):
 
     for file in files:
         if not os.path.exists(file):
-            raise ConfigNotFoundError(
-                "Configuration file {} not found".format(file))
+            raise ConfigNotFoundError(file)
 
         with open(file) as config_file:
             try:
-                config.update(json.load(config_file))
+                new = json.load(config_file)
+                for key, value in new.items():
+                    if key in config.keys() and isinstance(value, collections.abc.Mapping):
+                        config[key].update(value)
+                    else:
+                        config[key] = value
             except Exception:
                 raise ConfigParseFailureError(
                     "Couldn't parse configuration file {}".format(file))
